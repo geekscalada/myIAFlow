@@ -11,7 +11,7 @@ mkdir -p .github && cd .github
 
 ## 2. Inicializa un repositorio vacío (no hagas clone directo aquí)
 git init
-git remote add origin https://github.com/tu-usuario/tu-repo-de-agentes.git
+git remote add origin https://github.com/geekscalada/myIAFlow.git
 
 ## 3. Activa el modo Sparse-Checkout (el filtro)
 git config core.sparseCheckout true
