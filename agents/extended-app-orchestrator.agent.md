@@ -1,5 +1,5 @@
 ---
-name: app-orchestrator
+name: extended-app-orchestrator
 description: Orquesta tareas de cualquier tipo (cualquier lenguaje, stack o tecnología), decide qué áreas están afectadas y delega en los agentes especializados disponibles.
 tools: ["read", "search", "edit", "runCommands", "agent"]
 agents: ["python-cv-implementer", "python-iot-implementer", "Investigator Architect", "angular-implementer", "express-implementer", "cdk-implementer", "integration-reviewer"]
