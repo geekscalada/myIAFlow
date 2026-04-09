@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "bash .github/hooks/scripts/docs-tracker.sh",
+        "timeout": 10
+      }
+    ]
+  }
+}
