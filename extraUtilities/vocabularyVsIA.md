@@ -1,0 +1,2 @@
+`Smoke test` = Test tonto, solo para verificar que algo empieza a funcionar, algo como por ejemplo comprobar que puedes hacer curl a una API.
+`Hito verificable` = Algo que tiene ya un mínimo de consistencia como para ser probado por alguien que compruebe que su funcionamiento, por ejemplo una demo de que tenemos un endpoint que devuelve usuarios dummy.
