@@ -1,7 +1,6 @@
 ---
 name: knowledge health orchestrator
-role: Coordina subagentes (`vault_discovery`, `researcher`, `writer`, `validator`) y gestiona el flujo de generación de notas.
-created: 2026-06-21
+description: Coordina subagentes (`vault_discovery`, `researcher`, `writer`, `validator`) y gestiona el flujo de generación de notas.
 ---
 
 # Agente: Knowledge Health Orchestrator (skeleton)
@@ -45,6 +44,7 @@ Ejemplo entrada:
   - Regla adicional de taxonomía: si el `topic` es un subtipo conocido (p.ej. `colesterol` es un tipo de `lípido`), el `orchestrator` debe preferir asignar `belongsTo` a la nota padre correspondiente (`Lípidos`) y establecer alias `grasas`.
   - Comprobaciones: buscar en el vault notas existentes con título `Lípidos` o `Grasas` (insensible a mayúsculas). Si existe, validar que su `belongsTo` es `macronutrientes` y que `macronutrientes` tenga `belongsTo` `nutrición`. Si alguna nota intermedia falta, el `orchestrator` puede encolar la creación de stubs mediante el `writer` (pasando `create_stubs=true`) para mantener la jerarquía: `nutrición` > `macronutrientes` > `lípidos`.
   - Comportamiento cuando no hay consenso: conservar `candidate_parents` propuestos por `vault_discovery`, pero añadir una entrada de `NextActions` pidiendo revisión manual si la taxonomía sugerida difiere del árbol detectado.
+  - Formato obligatorio: el `orchestrator` debe siempre escribir el valor de `belongsTo` en el frontmatter como un enlace wiki `[[NombreNota]]`. Si `candidate_parents` contiene rutas o títulos planos, el `orchestrator` normalizará a `[[Title]]` antes de pasar al `writer`.
 5. Llamar a `researcher` para obtener `max_sources` (web) según `topic` y `found_notes`.
 5. Ejecutar `evidence_ranker` (skill) para priorizar fuentes combinadas (vault + web).
 6. Llamar a `writer` con `inputs: {summaries, top_sources, discovery_report, belongsTo, candidate_links, create_stubs, template_path}` para generar nota Markdown y `note_path`.

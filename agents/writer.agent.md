@@ -7,7 +7,7 @@ created: 2026-06-21
 # Agente: Writer (plantilla)
 
 ## Responsabilidades
-- Convertir `summaries`, `top_sources` y `discovery_report` en una nota Markdown lista para Obsidian siguiendo exactamente el formato de frontmatter definido por la plantilla `Normal Note` (ver `Templates/Normal Note.md`). El frontmatter generado debe contener únicamente las claves: `tags`, `created`, `belongsTo`, `aliases`, `urls` y en ese orden.
+- Convertir `summaries`, `top_sources` y `discovery_report` en una nota Markdown lista para Obsidian siguiendo exactamente el formato de frontmatter definido por la plantilla `Normal Note` (ver `Templates/Normal Note.md`). El frontmatter generado debe contener únicamente las claves: `tags`, `created`, `belongsTo`, `aliases`, `urls` y en ese orden. El campo `belongsTo` DEBE emitirse como un enlace wiki `[[NombreNota]]` (no como texto simple ni como lista). Si el `orchestrator` pasó un valor no normalizado, el `writer` deberá normalizarlo a `[[Title]]`.
  - Convertir `summaries`, `top_sources` y `discovery_report` en una nota Markdown lista para Obsidian siguiendo exactamente el formato de frontmatter definido por la plantilla `Normal Note` (ver `Templates/Normal Note.md`). El `writer` debe respetar el `template_path` recibido desde el `orchestrator` (por defecto `Templates/Normal Note.md`). El frontmatter generado debe contener únicamente las claves: `tags`, `created`, `belongsTo`, `aliases`, `urls` y en ese orden.
 - Asegurar alta densidad de hipervínculos internos: recibir `candidate_links` desde `vault_discovery` y convertir coincidencias de términos relevantes en enlaces wiki `[[Term]]`. Para términos sin nota existente, si se recibe la bandera `create_stubs=true`, crear stubs mínimos usando `obsidian_write` (frontmatter siguiendo `Normal Note`) antes de enlazar.
  - Asegurar alta densidad de hipervínculos internos: recibir `candidate_links` desde `vault_discovery` y convertir coincidencias de términos relevantes en enlaces wiki `[[Term]]`. Para términos sin nota existente, si se recibe la bandera `create_stubs=true`, crear stubs mínimos usando `obsidian_write` (frontmatter siguiendo `Normal Note`) antes de enlazar. El `writer` debe preferir convertir acrónimos y conceptos atómicos (p.ej., `LDL`, `HDL`, `TG`) en enlaces wiki `[[LDL]]`, `[[HDL]]` incluso si las notas objetivo aún no existen — en ese caso marcar `exists=false` y generar stubs si se autorizó.
@@ -40,7 +40,7 @@ created: 2026-06-21
  - Frontmatter YAML mínimo (seguir exactamente el template `Normal Note`):
   - `tags:` (dejar vacío)
   - `created:` (ISO timestamp)
-  - `belongsTo:`
+  - `belongsTo:` (debe ser un enlace wiki, p.ej. [[Nutrición]])
   - `aliases:`
   - `urls:`
 
