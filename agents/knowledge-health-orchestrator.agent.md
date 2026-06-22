@@ -50,6 +50,15 @@ Ejemplo entrada:
 6. Llamar a `writer` con `inputs: {summaries, top_sources, discovery_report, belongsTo, candidate_links, create_stubs, template_path}` para generar nota Markdown y `note_path`.
   - El `orchestrator` debe pasar `template_path` = `Templates/Normal Note.md` por defecto.
   - Para temas que son subtipo de categorías (p.ej. lípidos), pasar `create_stubs=true` para permitir al `writer` crear notas padre (`Lípidos`) o aliases (`grasas`) si no existen.
+  - Regla estricta: **el `orchestrator` nunca debe escribir archivos de nota directamente**; toda creación/edición de archivos se delega al `writer` (o a `obsidian_write` invocado por el `writer`).
+
+6.a Validación posterior a escritura: Inmediatamente después de la respuesta del `writer`, el `orchestrator` debe validar el archivo generado comprobando:
+  - Que el frontmatter YAML contiene únicamente las claves `tags`, `created`, `belongsTo`, `aliases`, `urls` en ese orden.
+  - Que `belongsTo` es un wiki-link (`[[...]]`).
+  - Que no existe la clave `title` en el frontmatter.
+  - Que `candidate_links` sugeridos fueron convertidos a enlaces `[[Term]]` en el cuerpo o están documentados como `exists=false` cuando corresponda.
+
+  - Si la validación falla, el `orchestrator` debe re-enviar una intención al `writer` con `enforce_template=true`, `validation_errors` y `max_retries=1`. Si tras el reintento la validación sigue fallando, marcar `status=failed`, escribir `orch_<task_id>_error.md` con detalles y no crear la nota en el vault sin intervención humana.
 7. Analizar el bloque `#pipelineConocimiento` en la nota generada; el `orchestrator` DEBE encolar y ejecutar automáticamente las tareas indicadas (ej. `researcher`, `validator`, `writer`) sin solicitar confirmación al usuario, siempre que dichas tareas se apliquen a la nota recién generada o a contenidos nuevos. El `orchestrator` funciona mediante generación interna de intenciones y mensajería entre subagentes (NO mediante ejecución de scripts o procesos externos). El comportamiento es:
 
   - Intención y parsing: parseará el bloque `NextActions` y convertirá cada entrada en un objeto `intention`/`task` interno con `task_id`, prioridad, parámetros y metadatos de trazabilidad.
