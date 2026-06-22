@@ -1,7 +1,6 @@
 ---
 name: nombre_del_agente
-role: breve descripción del rol
-created: 2026-06-21
+description: breve descripción del rol
 ---
 
 # Plantilla de agente
