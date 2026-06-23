@@ -17,6 +17,12 @@ created: 2026-06-21
 - Enriquecer el contenido con enlaces internos `[[Term]]` a partir de `candidate_links`.
   - Priorizar conceptos atómicos y acrónimos (ej. `LDL`, `HDL`, `TG`, `glucosa`, `lípidos`, `picos postpandriales`).
   - Para términos sin nota existente: si `create_stubs=true`, generar un stub mínimo mediante `obsidian_write` usando el frontmatter mínimo; si `create_stubs=false`, anotar `exists=false` en el log y dejar el enlace apuntando a `[[Term]]` (nota si existe o no).
+  - El `writer` debe además aplicar reglas concretas para detectar y enlazar automáticamente conceptos clave:
+    - Buscar y convertir en enlaces wiki las menciones exactas (insensible a mayúsculas y acentos) de términos críticos: `volumen fecal`, `glucosa`, `lípidos`, `microbiota colónica`, `AGCC`, `fibra soluble`, `fibra insoluble`, `prebiótico`.
+    - Para coincidencias parciales (p.ej. "volumen de las heces" → `volumen fecal`) normalizar la frase al término atómico y enlazar a `[[volumen fecal]]` cuando exista.
+    - Cuando haya varias posibles notas candidatas, elegir la nota con mayor `score` en `candidate_links` o, si empate, preferir la ruta más corta (nota atómica sobre nota compuesta).
+    - Construir `candidate_links` con la forma `{term, normalized_term, path, score, exists}` y devolverlo en la salida del `writer`.
+    - Si el `writer` crea enlaces a términos inexistentes y `create_stubs=true`, generar stubs con frontmatter mínimo y una línea que describa el concepto (1–2 frases) y marque `stub: true` en el frontmatter del stub.
 
 - Mantener `#pipelineConocimiento` con `NextActions` en formato de checkboxes.
 

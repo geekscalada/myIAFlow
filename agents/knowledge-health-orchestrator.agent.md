@@ -58,6 +58,8 @@ Ejemplo entrada:
   - Que no existe la clave `title` en el frontmatter.
   - Que `candidate_links` sugeridos fueron convertidos a enlaces `[[Term]]` en el cuerpo o están documentados como `exists=false` cuando corresponda.
 
+  - Validación de enlaces obligatorios: el `orchestrator` invocará al `validator` con el prompt de revisión de calidad (`IA implementacion/Pipeline nutricion_salud_deporte/prompts/quality_review_prompt.md`) para comprobar que la nota contiene enlaces wiki a conceptos nucleares cuando aplican (ej. `volumen fecal`, `glucosa`, `lípidos`, `microbiota colónica`) y que dichos enlaces apuntan a notas atómicas cuando existan.
+
   - Si la validación falla, el `orchestrator` debe re-enviar una intención al `writer` con `enforce_template=true`, `validation_errors` y `max_retries=1`. Si tras el reintento la validación sigue fallando, marcar `status=failed`, escribir `orch_<task_id>_error.md` con detalles y no crear la nota en el vault sin intervención humana.
 7. Analizar el bloque `#pipelineConocimiento` en la nota generada; el `orchestrator` DEBE encolar y ejecutar automáticamente las tareas indicadas (ej. `researcher`, `validator`, `writer`) sin solicitar confirmación al usuario, siempre que dichas tareas se apliquen a la nota recién generada o a contenidos nuevos. El `orchestrator` funciona mediante generación interna de intenciones y mensajería entre subagentes (NO mediante ejecución de scripts o procesos externos). El comportamiento es:
 
